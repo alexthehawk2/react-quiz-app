@@ -53,6 +53,12 @@ body {
 
   color: #293264;
 }
+
+.score-container{
+  display: flex;
+  justify-content: center;
+  gap: 50px;
+}
 .title {
   font-family: "Karla";
   font-style: normal;
@@ -96,8 +102,25 @@ body {
   font-weight: 500;
   font-size: 12px;
   line-height: 12px;
+  cursor: pointer;
 
   text-align: center;
 
   color: #293264;
+}
+.selected-answer{
+  background-color: #D6DBF5;
+  color: #293264;
+}
+.wrong-answer {
+  background-color: #F8BCBC;
+  color: #293264;
+  opacity: 0.5;
+}
+.right-answer{
+  background-color: #94D7A2;
+  color: #293264;
+}
+.unselected-answer {
+  opacity: 0.5;
 }
