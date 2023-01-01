@@ -4,6 +4,9 @@ import { useEffect, useState } from "react";
 import Quiz from "./components/Quiz";
 import { nanoid } from "nanoid";
 import { decode } from "html-entities";
+import { BarLoader } from "react-spinners";
+import MoonLoader from "react-spinners/MoonLoader";
+import HashLoader from "react-spinners/HashLoader";
 function App() {
   const [quizData, setQuizData] = useState(false);
   const [startStatus, setStartStatus] = useState(false);
@@ -17,6 +20,7 @@ function App() {
     startElement.style.display = "none";
     setStartStatus(true);
     setStartAgain(true)
+    setLoading(true)
   }
   function allValuesTrue(array) {
     return array.every(val => val === true);
@@ -66,7 +70,6 @@ function App() {
     setQuizData(false)
     setStartStatus(true)
     setStartAgain(startAgain => !startAgain)
-
     
   }
   function decodeAllArrayItems(arr){
@@ -94,15 +97,20 @@ function App() {
       
     
   }, [startStatus,startAgain]);
+  const [loading, setLoading] = useState(true)
+
+  useEffect (()=>{
+    setLoading(false)
+  }, [quizData])
   return (
     <div className="App">
-      <StartScreen start={start} />
-      {quizData && <Quiz selectAnswer={selectAnswer} startStatus={startStatus} quizData={quizData} />}
+    <StartScreen start={start} />
+    {loading ? <HashLoader size={100} loading={loading} style={{"display": "block"}}/> : quizData && <Quiz selectAnswer={selectAnswer} startStatus={startStatus} quizData={quizData} />}
+      {!loading && startStatus ? <button onClick={checkAnswers} className="start-btn check-btn">Check Answer</button> : ""}
       {quizEnd && <div className="score-container">
         <p className="description">{`You scored ${correctCount}/5 correct answer.`}</p>
         <button onClick={playAgain} className="start-btn check-btn">Play Again</button>
       </div>}
-      {startStatus && <button onClick={checkAnswers} className="start-btn check-btn">Check Answer</button>}
 
     </div>
   );
