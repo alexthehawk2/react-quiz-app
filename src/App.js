@@ -13,6 +13,8 @@ function App() {
   const [correctCount, setCorrectCount] = useState(0);
   const [quizEnd, setQuizEnd] = useState(false)
   const [startAgain, setStartAgain] = useState(false)
+  const [loading, setLoading] = useState(false)
+
   const apiEndpoint =
         "https://opentdb.com/api.php?amount=5&category=18&difficulty=easy";
   function start() {
@@ -70,6 +72,7 @@ function App() {
     setQuizData(false)
     setStartStatus(true)
     setStartAgain(startAgain => !startAgain)
+    setLoading(!loading)
     
   }
   function decodeAllArrayItems(arr){
@@ -84,6 +87,7 @@ function App() {
       fetch(apiEndpoint)
         .then((res) => res.json())
         .then((data) => {
+          setLoading(!loading)
           setQuizData(data.results.map(question=> {
             const randomAnswerPlacement = question.incorrect_answers.concat(question.correct_answer)
             randomAnswerPlacement.splice(Math.floor(Math.random() * randomAnswerPlacement.length), 0, randomAnswerPlacement.pop());
@@ -97,10 +101,9 @@ function App() {
       
     
   }, [startStatus,startAgain]);
-  const [loading, setLoading] = useState(true)
 
   useEffect (()=>{
-    setLoading(false)
+    // setLoading(false)
   }, [quizData])
   return (
     <div className="App">
